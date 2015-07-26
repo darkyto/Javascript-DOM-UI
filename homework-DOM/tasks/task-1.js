@@ -15,72 +15,80 @@ OKK  * Any of the function params is not as described
   * Any of the contents is neight `string` or `number`
 ? ОК    * In that case, the content of the element **must not be** changed   
 */
-//module.exports = function () {
-// return 
-function createPage(element, contents) {
-    var i,
-        len = contents.length,
-        frag = document.createDocumentFragment(),
-        newDivElement = document.createElement('div'),
-        selectedElement,
-        addedDiv;
+module.exports = function () {
+	
+	return function (element, contents) {
+	    var i,
+	        len = contents.length,
+	        frag = document.createDocumentFragment(),
+	        newDivElement = document.createElement('div'),
+	        selectedElement,
+	        addedDiv;
 
-    if (element === undefined || contents === undefined) {
-        throw new Error('missing argument for function createPage(element, contents)');
-    }
+	    if (element === undefined || contents === undefined) {
+	        throw new Error('missing argument for function createPage(element, contents)');
+	    }
 
-    if (typeof(element) !== 'string' && !(element instanceof HTMLElement)) {
-        throw new Error('element is neither string nor html element');
-    }
-    if (typeof(element) === 'string') {
-        selectedElement = document.getElementById(element);
-        if (selectedElement === null) {
-            throw new Error('Provided ID not found in any page element!');
-        }
+	    if (typeof(element) !== 'string' && !(element instanceof HTMLElement)) {
+	        throw new Error('element is neither string nor html element');
+	    }
 
-        while (selectedElement.firstChild) {
-            selectedElement.removeChild(selectedElement.firstChild);
-        }
+	    if (typeof(element) === 'string') {
+	        selectedElement = document.getElementById(element);
+	        if (selectedElement === null) {
+	            throw new Error('Provided ID not found in any page element!');
+	        }
 
-    } else if (element instanceof HTMLElement) {
-        selectedElement = element;
-        firstChild = selectedElement.firstChild;
+	        if (!contents || contents.some(function(item) {
+		            return (typeof(item) !== 'string' && typeof(item) !== 'number');
+		        })) {
+		        throw new Error('Invalid input in contents ');
+		    }else {
+		    	while (selectedElement.firstChild) {
+		            selectedElement.removeChild(selectedElement.firstChild);
+		        }
+		    }
 
-        while (selectedElement.firstChild) {
-            selectedElement.removeChild(firstChild);
-            firstChild = firstChild.nextSibling;
-        }
-    }
+	        
 
-    if (contents.constructor !== Array && contents instanceof 'array') {
-        throw new Error('Invalid input at cretePage(..., CONTENTS) - have to be an array');
-    }
+	    } else if (element instanceof HTMLElement) {
 
-    if (!contents || contents.some(function(item) {
-            return (typeof(item) !== 'string' && typeof(item) !== 'number');
-        })) {
-        //in that case do not change the content ...
-    }
+	        selectedElement = element;
+	        firstChild = selectedElement.firstChild;
 
-    for (i = 0; i < len; i += 1) {
-        addedDiv = newDivElement.cloneNode(true);
-        addedDiv.innerHTML = '';
-        if (typeof contents[i] === 'string') {
-            addedDiv.innerHTML += contents[i];
-        } else if (contents[i] instanceof HTMLElement) {
-            addedDiv.appendChild(contents[i]);
-        } else {
-            addedDiv.innerHTML += contents[i];
-        }
-        frag.appendChild(addedDiv);
-    }
+	        while (selectedElement.firstChild) {
+	            selectedElement.removeChild(firstChild);
+	            firstChild = firstChild.nextSibling;
+	        }
+	    }
 
-    selectedElement.appendChild(frag);
-}
-// };
+	    if (contents.constructor !== Array && contents instanceof 'array') {
+	        throw new Error('Invalid input at cretePage(..., CONTENTS) - have to be an array');
+	    }
 
+	    
+
+	    for (i = 0; i < len; i += 1) {
+	        addedDiv = newDivElement.cloneNode(true);
+	        addedDiv.innerHTML = '';
+	        if (typeof contents[i] === 'string') {
+	            addedDiv.innerHTML += contents[i];
+	        } else if (contents[i] instanceof HTMLElement) {
+	            addedDiv.appendChild(contents[i]);
+	        } else {
+	            addedDiv.innerHTML += contents[i];
+	        }
+	        frag.appendChild(addedDiv);
+	    }
+
+	    selectedElement.appendChild(frag);
+	};
+};
+
+/*
 createPage('myID', ['<div>abra</div>', 'def', 'hhh', 5]);
 var customDiv = document.createElement('strong');
 customDiv.innerHTML = 'HA-HA-HA';
 customDiv.style.fontSize = '38px';
 createPage(document.body.children[1], ['<div>aca da brada</div>', 'John Snow', 'XXX', 252, customDiv]);
+*/
