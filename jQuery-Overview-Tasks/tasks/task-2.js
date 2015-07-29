@@ -16,27 +16,29 @@ OK  * Change the content of all `.button` elements with "hide"
 * Throws if:
   * The provided ID is not a **jQuery object** or a `string` 
 
-*/
-function solve() {
-  return function (selector) {
+  */
+  function solve() {
+    return function (selector) {
 
       if (selector === null || typeof(selector) !== 'string') {
         throw Error();
       }   
       var $this = $(selector);
-    
+
+
       $.fn.exists = function () {
-          return this.length !== 0;
+        return this.length !== 0;
       };
 
       if ( !($(selector).exists()) ) {
         throw new Error();
       }
 
+
       var buttonElements = $('.button'),
-          contentElements = $('.content'),
-          i,
-          len;
+      contentElements = $('.content'),
+      i,
+      len;
 
       $(buttonElements).each( function() {
         $(this).text('hide');
@@ -46,27 +48,27 @@ function solve() {
 
       function toggleElements(ev) {
         if ($(ev.target).hasClass('button')) {
-            var target = $(ev.target);
-            var next = target;
+          var target = $(ev.target);
+          var next = target;
 
-              while(next)  {
-              if (next.hasClass('content')) {
-                break;
-              }
-              next = next.next();
+          while(next)  {
+            if (next.hasClass('content')) {
+              break;
             }
+            next = next.next();
+          }
 
-              if (next.css('display') === 'none') {
-                  target.text('hide');
-                  next.css('display', '');
-              } else {
-                  target.text('show');
-                  next.hide();
-            }    
+          if (next.css('display') === 'none') {
+            target.text('hide');
+            next.css('display', '');
+          } else {
+            target.text('show');
+            next.css('display', 'none');
+          }    
         }
       }
 
-  };
-}
+    };
+  }
 
 module.exports = solve;
