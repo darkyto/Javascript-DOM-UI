@@ -20,50 +20,46 @@ OK  * Change the content of all `.button` elements with "hide"
   function solve() {
     return function (selector) {
 
-      if (selector === null || typeof(selector) !== 'string') {
-        throw Error();
-      }   
-      var $this = $(selector);
-
+      if (selector == null || typeof(selector) !== 'string') {
+          throw new Error('Invalid selector input (not a string)');
+      };  
 
       $.fn.exists = function () {
         return this.length !== 0;
       };
 
       if ( !($(selector).exists()) ) {
-        throw new Error();
+        throw new Error("Not existing selector passed");
       }
 
+      var $buttonElements = $('.button'),
+          $contentElements = $('.content');
 
-      var buttonElements = $('.button'),
-      contentElements = $('.content'),
-      i,
-      len;
-
-      $(buttonElements).each( function() {
-        $(this).text('hide');
+      $($buttonElements).each(function() {
+          $(this).text('hide');
       });
 
       $(selector).on('click', toggleElements);
+      // trigger on the parent elemnent
 
       function toggleElements(ev) {
         if ($(ev.target).hasClass('button')) {
-          var target = $(ev.target);
-          var next = target;
+          var $target = $(ev.target);
+          var $nextElement = $target;
 
-          while(next)  {
-            if (next.hasClass('content')) {
-              break;
-            }
-            next = next.next();
+          while($nextElement) {
+             if ($nextElement.hasClass('content')) {
+                break;
+             }
+             $nextElement = $nextElement.next();
           }
 
-          if (next.css('display') === 'none') {
-            target.text('hide');
-            next.css('display', '');
+          if ($nextElement.css('display') === 'none') {
+             $target.text('hide');
+             $nextElement.css('display','');
           } else {
-            target.text('show');
-            next.css('display', 'none');
+             $target.text('show');
+             $nextElement.css('display','none');
           }    
         }
       }
