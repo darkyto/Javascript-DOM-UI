@@ -16,13 +16,13 @@ function solve(){
     for (var i = 0; i < 5; i+=1) {
 
         $('<div class="dropdown-item" data-value="' 
-            + (i - 1) +'" data-index = "' 
+            + (i + 1) +'" data-index = "' 
             + i + '">Option ' 
             + (i + 1) + '</div>').appendTo($container);
 
         /* 
         //this below should be ok but has not passed the 5th unit test
-        
+
         var $newItem = $item.clone();
         $newItem.attr('data-value', 'value-'+ (index+1));
         $newItem.attr('data-index', index);    
