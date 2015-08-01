@@ -11,12 +11,14 @@ function solve(){
     $current.text('Select a value');   
     $container.css('display','none');
 
-    var $options = $('option');
-    $options.each(function(index) {
-        $('<div class="dropdown-item" data-value="' 
-            + (index + 1) +'" data-index = "' 
-            + index + '">Option ' 
-            + (index + 1) + '</div>').appendTo($container);
+
+    var $options = $selector.find('option');
+    $options.each(function(i, element) {
+        var $newItem = $('<div />').addClass('dropdown-item');
+        $newItem.attr('data-value', $($options[i]).val() );
+        $newItem.attr('data-index', i - 1);    
+        $newItem.text($($options[i]).text());
+        $container.append($newItem);
     });
 
     $dropdownDiv.append($selector);
@@ -34,6 +36,7 @@ function solve(){
             $container.css('display','none');
         }   
     });
+
     $('.dropdown-item').on('click', function() {
         $('.current').attr('data-value', $(this).attr('data-value')); 
         $('.current').text($(this).text());            
@@ -42,6 +45,8 @@ function solve(){
         $selector.val($(this).attr('data-value'));
         $selector.attr('value', $selector.val());
     });
+
+    
   };
 }
 
