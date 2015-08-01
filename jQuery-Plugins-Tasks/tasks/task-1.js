@@ -11,26 +11,13 @@ function solve(){
     $current.text('Select a value');   
     $container.css('display','none');
 
-    var $item = $('<div />').addClass('dropdown-item');
-
-    for (var i = 0; i < 5; i+=1) {
-
+    var $options = $('option');
+    $options.each(function(index) {
         $('<div class="dropdown-item" data-value="' 
-            + (i + 1) +'" data-index = "' 
-            + i + '">Option ' 
-            + (i + 1) + '</div>').appendTo($container);
-
-        /* 
-        //this below should be ok but has not passed the 5th unit test
-
-        var $newItem = $item.clone();
-        $newItem.attr('data-value', 'value-'+ (index+1));
-        $newItem.attr('data-index', index);    
-        $newItem.text('Option '+(index+1));
-        $container.append($newItem);
-        */
-        
-    }
+            + (index + 1) +'" data-index = "' 
+            + index + '">Option ' 
+            + (index + 1) + '</div>').appendTo($container);
+    });
 
     $dropdownDiv.append($selector);
     $dropdownDiv.append($current);
