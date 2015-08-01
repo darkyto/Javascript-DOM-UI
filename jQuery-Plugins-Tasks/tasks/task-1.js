@@ -40,9 +40,11 @@ function solve(){
         $container.css('display','none');
 
         // this is working by description but not passing the test...
+        var $selected = $selector.children().eq($(this).attr('data-index'));
+        $selected.attr('selected', '');        
         $selector.val($(this).attr('data-value'));
         $selector.attr('value', $selector.val());
-        console.log($selector.val());
+        console.log($selected);
     });
   };
 }
