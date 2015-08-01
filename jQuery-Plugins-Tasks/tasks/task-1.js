@@ -7,12 +7,8 @@ function solve(){
     
     var $dropdownDiv = $('<div />').addClass('dropdown-list');
     
-    $selector.attr('name','the-select');
     $selector.css('display','none');
-
-    $dropdownDiv.append($selector);
-  
-    $current.attr('data-value','');
+ 
     $current.text('Option 1');
     
     $container.css('display','none');
@@ -27,6 +23,7 @@ function solve(){
         $container.append($newItem);
     }
 
+    $dropdownDiv.append($selector);
     $dropdownDiv.append($current);
     $dropdownDiv.append($container);
 
@@ -35,13 +32,17 @@ function solve(){
 
     $('.current').on('click', function() {
         $container.css('display','');
+        
     });
     $('.dropdown-item').on('click', function() {
-        $('.current').text($(this).text());
-        $('.current').attr('data-value', $(this).attr('data-value'));
-        $selector.val($(this).attr('data-value'));
-        console.log($selector.val());
+        $('.current').attr('data-value', $(this).attr('data-value')); 
+        $('.current').text($(this).text());            
         $container.css('display','none');
+
+        // this is working by description but not passing the test...
+        $selector.val($(this).attr('data-value'));
+        $selector.attr('value', $selector.val());
+        console.log($selector.val());
     });
   };
 }
